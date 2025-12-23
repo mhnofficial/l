@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+
+  <link rel="icon" type="image/png" href="e.ico">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+
+.my-text {
+  text-align: center;
+  margin-top: 50px;      /* move text down */
+  /* or */
+  transform: translateY(20px); /* move text down 20px */
+}
+
+
+body {
+    text-align: center;
+font-family: 'Poppins', sans-serif;
+  background-color: #0b0014;
+  background-image:
+    linear-gradient(rgba(150, 80, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(150, 80, 255, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: var(--scroll-offset-x, 0px) var(--scroll-offset-y, 0px);
+  background-attachment: fixed;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+@keyframes gridMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
+}
+
+body.animate-grid {
+  animation: gridMove 10s linear infinite;
+}
+
+
+body.animate-grid {
+  animation: gridMove 10s linear infinite;
+}
+
+
+    </style>
+</head>
+<body>
+  <h1 style="font-size: 50px;">other cool stuff</h1>
+
+  <!-- 🔍 Search bar -->
+  <div style="margin-bottom: 40px;">
+    <input 
+      type="text" 
+      id="searchInput" 
+      placeholder="Search for a thing..." 
+      style="padding: 15px 20px; border-radius: 15px; border: none; outline: none; width: 300px; font-size: 16px; text-align:center;"
+    >
+  </div>
+
+  <!-- 🔲 Game grid -->
+  <div class="game-grid" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
+    
+    <a href="https://mizumath.com" class="game-card">
+      <div class="card-content">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVqsLmnDEULHeFiI2XtzYrjtm0zwzH7c7sEg&s" class="card-image">
+        <h3 class="card-title">mizumath</h3>
+      </div>
+    </a>
+
+    <a href="https://www.mcstumble.com/" class="game-card">
+      <div class="card-content">
+        <img src="https://mcstumble.com/android-chrome-512x512.png" class="card-image">
+        <h3 class="card-title">MCStumble</h3>
+    </div>
+    </a>
+
+    <a href="https://builditapp.com" class="game-card">
+      <div class="card-content">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2AC4Uxyg4qzLQ_PP8nPOPUSbIJpoOwwrEJQ&s" class="card-image">
+        <h3 class="card-title">MC Build Tuts</h3>
+      </div>
+    </a>
+
+    <a href="https://learn-anything.xyz" class="game-card">
+      <div class="card-content">
+        <img src="https://pbs.twimg.com/profile_images/1979584490390290432/yvlSZYOL_400x400.jpg" class="card-image">
+        <h3 class="card-title">Learn Anything</h3>
+      </div>
+    </a>
+
+    <a href="https://remove.photos" class="game-card">
+      <div class="card-content">
+        <img src="logo(1).png" class="card-image">
+        <h3 class="card-title">Photo AI Tools</h3>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- 🔴 No results message -->
+  <p id="noResultsMessage" style="margin-top: 40px; font-size: 24px; color: #ff55ff; display: none;"></p>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const cards = document.querySelectorAll('.game-card');
+    const noResultsMessage = document.getElementById('noResultsMessage');
+
+    const funnyMessages = [
+      "i think u misspled that.",
+      "not here.",
+      "404: thing not found.",
+      "probably not here.",
+      "nope, that’s not here.",
+      "u made that one up.",
+      "we ran out of storage for that thing.",
+      "are you sure you spelled that right?",
+      "doesn’t exist.",
+      "thats what she said lmfaoooooo",
+      "that’s not here.",
+      "lmao nope."
+    ];
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      let found = false;
+
+      cards.forEach(card => {
+        const title = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
+        if (title.includes(query)) {
+          card.style.display = 'block';
+          found = true;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (!found && query.trim() !== '') {
+        noResultsMessage.textContent = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+        noResultsMessage.style.display = 'block';
+      } else {
+        noResultsMessage.style.display = 'none';
+      }
+    });
+  </script>
+
+  <script>
+  // 🔤 Auto-sort game cards alphabetically by title
+  const gameGrid = document.querySelector('.game-grid');
+  const cardsArray = Array.from(document.querySelectorAll('.game-card'));
+
+  // Sort by <h3> text (case-insensitive)
+  cardsArray.sort((a, b) => {
+    const titleA = a.querySelector('.card-title').textContent.toLowerCase();
+    const titleB = b.querySelector('.card-title').textContent.toLowerCase();
+    return titleA.localeCompare(titleB);
+  });
+
+  // Clear and re-append in sorted order
+  cardsArray.forEach(card => gameGrid.appendChild(card));
+</script>
+
+</body>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const offsetX = window.scrollY * 0.2;
+    const offsetY = window.scrollY * 0.2;
+    document.body.style.setProperty('--scroll-offset-x', `${offsetX}px`);
+    document.body.style.setProperty('--scroll-offset-y', `${offsetY}px`);
+  });
+</script>
+
+</html>
