@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunet Hub — Dashboard</title>
+    <link rel="icon" type="image/png" href="e.ico">
+
+    <!-- Modern Typography & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- YOUR MINNIT CHAT SCRIPT -->
+    <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
+
+    <style>
+        :root {
+            --primary: #9d50bb;
+            --secondary: #6e48aa;
+            --bg-dark: #090412;
+            --surface: #150d26;
+            --surface-hover: #1e1238;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --accent-glow: rgba(157, 80, 187, 0.3);
+            --radius-lg: 24px;
+            --radius-md: 14px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --sidebar-width: 280px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            background-image: radial-gradient(at 0% 0%, rgba(110, 72, 170, 0.12) 0px, transparent 50%),
+            radial-gradient(at 100% 100%, rgba(157, 80, 187, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        nav {
+            width: var(--sidebar-width);
+            background: var(--surface);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 40px 24px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 14px; margin-bottom: 50px; }
+        .logo-area img { width: 42px; height: 42px; border-radius: 12px; }
+        .logo-area h1 { font-size: 1.5rem; font-weight: 700; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .nav-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .nav-links a { display: flex; align-items: center; gap: 14px; padding: 16px 20px; color: var(--text-muted); text-decoration: none; border-radius: var(--radius-md); transition: var(--transition); }
+        .nav-links a:hover, .nav-links a.active { background: var(--surface-hover); color: #fff; }
+
+        main { flex: 1; margin-left: var(--sidebar-width); padding: 40px 60px; max-width: 1400px; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        #clock { background: rgba(255,255,255,0.03); padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.05); font-family: monospace; color: var(--primary); font-weight: bold; }
+
+        .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .card { background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: var(--radius-lg); padding: 25px; transition: var(--transition); text-decoration: none; color: inherit; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+
+        .chat-card { grid-column: span 2; grid-row: span 2; padding: 0; min-height: 550px; background: #000; border: 1px solid var(--primary); }
+        .chat-header { padding: 15px 25px; background: var(--surface); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+
+        .chat-container-inner { flex: 1; width: 100%; height: 100%; position: relative; }
+        .minnit-chat-sembed { width: 100% !important; height: 100% !important; display: block; }
+
+        .active-card { grid-column: span 1; background: linear-gradient(145deg, #1a102e, #090412); }
+        .user-count { font-size: 3.5rem; font-weight: 800; color: #fff; margin: 10px 0; }
+        .user-count span { font-size: 1rem; color: var(--primary); margin-left: 8px; }
+        .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        .icon-box { width: 45px; height: 45px; border-radius: 12px; background: rgba(157, 80, 187, 0.1); display: grid; place-items: center; color: var(--primary); margin-bottom: 15px; }
+
+        @media (max-width: 1100px) {
+            nav { width: 80px; padding: 30px 10px; }
+            nav h1, nav span { display: none; }
+            main { margin-left: 80px; padding: 20px; }
+            .bento-grid { grid-template-columns: 1fr; }
+            .chat-card { grid-column: span 1; height: 500px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo-area">
+        <img src="e.ico" alt="Lunet">
+        <h1>Lunet</h1>
+    </div>
+    <ul class="nav-links">
+        <li><a href="index.html" class="active"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a></li>
+        <li><a href="games.html"><i class="fa-solid fa-gamepad"></i> <span>Arcade</span></a></li>
+        <li><a href="ai.html"><i class="fa-solid fa-code"></i> <span>Timothy AI</span></a></li>
+        <li><a href="streaming.html"><i class="fa-solid fa-tv"></i> <span>Streaming</span></a></li>
+        <li><a href="tools.html"><i class="fa-solid fa-toolbox"></i> <span>Utility</span></a></li>
+    </ul>
+</nav>
+
+<main>
+    <header class="top-bar">
+        <div>
+            <h2>Lunet Hub</h2>
+            <p style="color: var(--text-muted);">Welcome to the main console.</p>
+        </div>
+        <div id="clock">00:00:00</div>
+    </header>
+
+    <section class="bento-grid">
+        <div class="card active-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="icon-box"><i class="fa-solid fa-tower-broadcast"></i></div>
+                <div style="display: flex; align-items: center; gap: 8px; color: #10b981; font-size: 0.7rem; font-weight: bold;">
+                    <div class="status-dot"></div> LIVE
+                </div>
+            </div>
+            <h3>Network Pulse</h3>
+            <!-- This ID must match your script -->
+            <div class="user-count" id="real-user-count">--<span>Online</span></div>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Real-time users connected to Lunet.</p>
+        </div>
+
+        <div class="card chat-card">
+            <div class="chat-header">
+                <span style="font-weight: 700; font-size: 0.85rem;"><i class="fa-solid fa-comment-dots" style="color: var(--primary); margin-right: 8px;"></i> LUNET GLOBAL CHAT</span>
+            </div>
+            <div class="chat-container-inner">
+                <span class="minnit-chat-sembed" data-chatname="https://organizations.minnit.chat/692787185692472/c/Main?embed" data-style="width:100%; height:100%; border:none;" data-version="1.55">Chat</span>
+            </div>
+        </div>
+
+        <!-- OTHER CARDS REMAIN THE SAME -->
+    </section>
+</main>
+
+<!-- CLOCK SCRIPT -->
+<script>
+    setInterval(() => {
+        document.getElementById('clock').textContent = new Date().toLocaleTimeString();
+    }, 1000);
+</script>
+
+<!-- FIREBASE REALTIME VISITOR COUNTER -->
+<script type="module">
+    // 1. Correct Import URLs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, onValue, push, onDisconnect, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    // 2. Your Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxUXbhZMajpZH18G-8-_u3Lxcgkd3xQbs",
+        authDomain: "asdf-f3406.firebaseapp.com",
+        projectId: "asdf-f3406",
+        databaseURL: "https://asdf-f3406-default-rtdb.firebaseio.com"
+    };
+
+    // 3. Initialize
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const onlineUsersRef = ref(db, 'online_users');
+    const countDisplay = document.getElementById('real-user-count');
+
+    // 4. Presence Logic
+    const myPresenceRef = push(onlineUsersRef);
+    const connectedRef = ref(db, '.info/connected');
+
+    onValue(connectedRef, (snap) => {
+        if (snap.val() === true) {
+            set(myPresenceRef, true);
+            onDisconnect(myPresenceRef).remove();
+        }
+    });
+
+    // 5. Update UI
+    onValue(onlineUsersRef, (snapshot) => {
+        const count = snapshot.size || 0;
+        if (countDisplay) {
+            countDisplay.innerHTML = `${count}<span>Online</span>`;
+        }
+    });
+</script>
+
+</body>
+</html>

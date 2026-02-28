@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunet Hub — Cinema</title>
+    <link rel="icon" type="image/png" href="e.ico">
+    
+    <!-- Modern Typography & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #9d50bb;
+            --secondary: #6e48aa;
+            --bg-dark: #090412;
+            --surface: #150d26;
+            --surface-hover: #1e1238;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --accent-glow: rgba(157, 80, 187, 0.3);
+            --radius-lg: 24px;
+            --radius-md: 14px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --sidebar-width: 280px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(110, 72, 170, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(157, 80, 187, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* --- Sidebar Navigation (Universal) --- */
+        nav {
+            width: var(--sidebar-width);
+            background: var(--surface);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex; flex-direction: column;
+            padding: 40px 24px; height: 100vh;
+            position: fixed; left: 0; top: 0; z-index: 100;
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 14px; margin-bottom: 50px; padding: 0 10px; }
+        .logo-area img { width: 42px; height: 42px; border-radius: 12px; box-shadow: 0 0 15px var(--accent-glow); }
+        .logo-area h1 { font-size: 1.5rem; font-weight: 700; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .nav-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .nav-links a { display: flex; align-items: center; gap: 14px; padding: 16px 20px; color: var(--text-muted); text-decoration: none; border-radius: var(--radius-md); transition: var(--transition); font-weight: 500; }
+        .nav-links a:hover, .nav-links a.active { background: var(--surface-hover); color: #fff; transform: translateX(5px); }
+        .nav-links a i { font-size: 1.2rem; width: 24px; }
+        .nav-links a.active i { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+
+        /* --- Main Content --- */
+        main {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 0; /* Hero takes full width */
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 60vh;
+            background: linear-gradient(to bottom, transparent, var(--bg-dark)), 
+                        url('https://resizing.flixster.com/ddXHuy5KP4wuR1pXDSvfE5-iKdE=/fit-in/705x460/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p23128922_i_h8_ab.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding: 60px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        .hero-content h2 { font-size: 3.5rem; font-weight: 800; margin-bottom: 15px; }
+        .hero-content p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 25px; line-height: 1.6; }
+
+        .btn-group { display: flex; gap: 15px; }
+        .btn {
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .btn-play { background: var(--primary); color: white; }
+        .btn-play:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--accent-glow); }
+        .btn-info { background: rgba(255, 255, 255, 0.1); color: white; backdrop-filter: blur(10px); }
+        .btn-info:hover { background: rgba(255, 255, 255, 0.2); }
+
+        /* --- MEDIA ROWS --- */
+        .content-section { padding: 40px 60px; }
+        .row-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; color: #fff; border-left: 4px solid var(--primary); padding-left: 15px; }
+
+        .media-row {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            scroll-behavior: smooth;
+        }
+        .media-row::-webkit-scrollbar { height: 6px; }
+        .media-row::-webkit-scrollbar-thumb { background: var(--surface-hover); border-radius: 10px; }
+
+        .media-card {
+            flex: 0 0 200px;
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .media-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        .media-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .media-info {
+            padding: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* --- MODAL (Lunet Style) --- */
+        .modal {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            display: none; place-items: center;
+            z-index: 2000;
+        }
+        .modal.active { display: grid; }
+        .modal-card {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            width: 90%; max-width: 700px;
+            display: flex; gap: 30px;
+            position: relative;
+            border: 1px solid var(--primary);
+        }
+        .modal-card img { width: 220px; border-radius: var(--radius-md); }
+        .modal-text h3 { font-size: 2rem; margin-bottom: 15px; }
+        .modal-text p { color: var(--text-muted); line-height: 1.7; }
+        .close-btn {
+            position: absolute; top: 20px; right: 20px;
+            background: none; border: none; color: white;
+            font-size: 1.5rem; cursor: pointer;
+        }
+
+        @media (max-width: 1100px) {
+            nav { width: 80px; padding: 30px 10px; }
+            nav h1, nav span { display: none; }
+            main { margin-left: 80px; }
+            .content-section { padding: 30px; }
+            .hero { padding: 30px; height: 50vh; }
+            .hero-content h2 { font-size: 2.2rem; }
+            .modal-card { flex-direction: column; align-items: center; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <nav>
+        <div class="logo-area">
+            <img src="../e.ico" alt="Lunet">
+            <h1>Lunet</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a></li>
+            <li><a href="../games.html"><i class="fa-solid fa-gamepad"></i> <span>Arcade</span></a></li>
+            <li><a href="../ai.html"><i class="fa-solid fa-code"></i> <span>Timothy AI</span></a></li>
+            <li><a href="enter.html"><i class="fa-solid fa-tv"></i> <span>Streaming</span></a></li>
+            <li><a href="../tools.html"><i class="fa-solid fa-toolbox"></i> <span>Utility</span></a></li>
+            <li><a href="../other.html"><i class="fa-solid fa-bell"></i> <span>OS</span></a></li>
+            <li><a href="../about.html"><i class="fa-solid fa-circle"></i> <span>About</span></a></li>
+        </ul>
+        <div style="margin-top: auto; text-align: center;">
+            <p style="font-size: 0.7rem; color: var(--text-muted);">© 2025 Lunet</p>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Bluelock</h2>
+                <p>Japan's desire for World Cup glory leads the Japanese Football Association to launch a new, ruthless training program: the Blue Lock.</p>
+                <div class="btn-group">
+                    <a href="enter/bluelock.html" class="btn btn-play"><i class="fa-solid fa-play"></i> Play Now</a>
+                    <button class="btn btn-info" onclick="openModal('Bluelock','Japan\'s desire for World Cup glory leads the Japanese Football Association to launch a new training program.','https://m.media-amazon.com/images/M/MV5BOGRhNDQ3NTgtMmU3YS00OWI0LTgyMmUtNGQwODk0MDg2YTYzXkEyXkFqcGc@._V1_.jpg')"><i class="fa-solid fa-circle-info"></i> Details</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- MEDIA ROWS -->
+        <div class="content-section">
+            <h2 class="row-title">Featured Anime</h2>
+            <div class="media-row">
+                <a href="enter/bluelock.html" class="media-card">
+                    <img src="https://m.media-amazon.com/images/M/MV5BOGRhNDQ3NTgtMmU3YS00OWI0LTgyMmUtNGQwODk0MDg2YTYzXkEyXkFqcGc@._V1_.jpg" alt="">
+                    <div class="media-info">Bluelock (DUB)</div>
+                </a>
+                <a href="enter/callofthenight.html" class="media-card">
+                    <img src="https://m.media-amazon.com/images/M/MV5BOGE0OTk3MmYtZDZmMC00MWRiLTg1MGYtMWEzNWZmNjI2YzEyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="">
+                    <div class="media-info">Call of The Night</div>
+                </a>
+                <a href="enter/JJK].html" class="media-card">
+                    <img src="https://m.media-amazon.com/images/I/81hOoZkGtbL.jpg" alt="">
+                    <div class="media-info">Jujutsu Kaisen</div>
+                </a>
+                <a href="https://docs.google.com/document/d/1YiQTM8OvQe5lLeOtWw6lylYDDmAP6Qm3EAg2SlFqUOM/edit?tab=t.0" class="media-card">
+                    <img src="https://www.posteremporium.com/media/catalog/product/cache/f03f26645451f9c676a9c15d2435d9d5/1/6/160993.jpg" alt="">
+                    <div class="media-info">Seed of Might</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1jOWTtXX3VqcJElQqovEvP5QTWCfgXLBS" class="media-card">
+                    <img src="https://deadline.com/wp-content/uploads/2024/07/Dragon-Ball-Series_c42772.jpg" alt="">
+                    <div class="media-info">Dragon Ball Series</div>
+                </a>
+            </div>
+
+            <h2 class="row-title" style="margin-top: 40px;">Community Requests</h2>
+            <div class="media-row">
+                <a href="enter/hamilton.html" class="media-card">
+                    <img src="https://m.media-amazon.com/images/I/71iZLrkVhDL.jpg" alt="">
+                    <div class="media-info">Hamilton</div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- INFO MODAL -->
+    <div class="modal" id="modal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal()">✕</button>
+            <img id="modal-img" src="" alt="">
+            <div class="modal-text">
+                <h3 id="modal-title"></h3>
+                <p id="modal-desc"></p>
+                <br>
+                <a href="#" class="btn btn-play" id="modal-play-link"><i class="fa-solid fa-play"></i> Watch Now</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalImg = document.getElementById('modal-img');
+
+        function openModal(title, desc, img) {
+            modal.classList.add('active');
+            modalTitle.textContent = title;
+            modalDesc.textContent = desc;
+            modalImg.src = img;
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        window.onclick = (e) => {
+            if (e.target == modal) closeModal();
+        }
+    </script>
+
+</body>
+</html>
